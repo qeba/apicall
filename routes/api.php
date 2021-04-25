@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SlackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->get('/slack', function (Request $request) {
     return "this is url bla bla bla...";
 });
+
+Route::middleware('auth:sanctum')->get('/slack/geturl', [SlackController::class, 'linkRequest']);

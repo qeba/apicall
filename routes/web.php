@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\SlackController;
 
 
 /*
@@ -23,10 +24,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/baru', function () {
-    return view('baru');
-})->name('baru');
+Route::middleware(['auth:sanctum', 'verified'])->get('/listrequest', [SlackController::class, 'viewUrl'])->name('listrequest');
 
+
+
+
+//route for testing singed url
 Route::get('/start', function (Request $request) {
     if (! $request->hasValidSignature()) {
         abort(401);
@@ -34,4 +37,14 @@ Route::get('/start', function (Request $request) {
     return view('started');
 })->name('start');
 
-//content here
+//route handle view for temporay pages
+Route::middleware('link')->get('/starting', function (Request $request) {
+    return view('started');
+})->name('starting');
+
+//route for slack genearte
+Route::middleware(['auth:sanctum', 'verified'])->post('/generatelink/create', [SlackController::class, 'create']);
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/baru', function () {
+    return view('baru');
+})->name('baru');
